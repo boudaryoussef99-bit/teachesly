@@ -8,14 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --glass: rgba(255, 255, 255, 0.8); 
-            --glass-border: rgba(255, 255, 255, 0.9); 
+            --glass: rgba(255, 255, 255, 0.85); 
             --apple-blue: #0071e3;
             --trust-blue: linear-gradient(135deg, #0061ff 0%, #0071e3 100%);
+            --silver-grad: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%);
+            --lavender-grad: linear-gradient(180deg, #e0e7ff 0%, #ffffff 100%);
         }
         body { 
             font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif; 
-            background: #f8fafc; 
+            background: #fbfbfd; 
             color: #1d1d1f; 
             scroll-behavior: smooth;
             overflow-x: hidden;
@@ -24,101 +25,90 @@
         .glass { 
             background: var(--glass); 
             backdrop-filter: blur(20px); 
-            border: 1px solid var(--glass-border); 
+            border: 1px solid rgba(255,255,255,0.5); 
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); 
         }
 
-        nav {
-            position: fixed;
-            top: 1.5rem;
-            width: 100%;
-            z-index: 1000;
+        nav { position: fixed; top: 1.5rem; width: 100%; z-index: 1000; }
+
+        /* SCROLL REVEAL ANIMATION */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* EXPERTISE IMAGES */
+        .img-card { position: relative; text-align: center; }
+        .img-wrapper { 
+            position: relative; border-radius: 32px; overflow: hidden; 
+            margin-bottom: 20px; transition: transform 0.4s ease;
+        }
+        .img-wrapper:hover { transform: scale(1.02); }
+        .backlight {
+            position: absolute; inset: 0; z-index: -1;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.12) 0%, transparent 75%);
+            filter: blur(30px);
         }
 
-        /* IMAGE SECTION STYLES */
-        .img-container {
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .img-container.reveal-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .img-container:hover {
-            transform: translateY(-10px) scale(1.02);
-        }
-        .img-glow {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
-            z-index: -1;
-            filter: blur(20px);
-        }
-        .expertise-img {
-            width: 100%;
-            height: auto;
-            border-radius: 24px;
-            display: block;
-        }
-
-        /* BUTTONS */
+        /* HERO BUTTON */
         .btn-science {
-            all: unset;
-            position: relative;
-            display: inline-flex;
-            height: 3.8rem;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9999px;
-            padding: 0 3.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            background: var(--trust-blue);
-            box-shadow: 0 10px 25px rgba(0, 97, 255, 0.3);
-        }
-        .btn-science:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 97, 255, 0.4);
-        }
-
-        .btn-apple {
-            all: unset; position: relative; display: inline-flex; height: 3.8rem;
+            all: unset; position: relative; display: inline-flex; height: 3.6rem;
             align-items: center; justify-content: center; border-radius: 9999px;
-            padding: 0 2.5rem; font-size: 1.1rem; font-weight: 600; color: #fff;
-            cursor: pointer; overflow: hidden; transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            background: #1d1d1f;
+            padding: 0 3rem; font-size: 1.05rem; font-weight: 600; color: #fff;
+            cursor: pointer; transition: all 0.4s ease;
+            background: var(--trust-blue);
+            box-shadow: 0 8px 20px rgba(0, 97, 255, 0.25);
         }
-        .btn-bg-layers {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%) scale(0);
-            width: 160%; aspect-ratio: 1; border-radius: 50%; background: var(--apple-blue);
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1); z-index: 0;
+        .btn-science:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0, 97, 255, 0.35); }
+
+        /* PREMIUM PRICING CARDS (MATCHING IMAGE VIBE) */
+        .price-card-v2 {
+            background: #fff; border-radius: 35px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0; display: flex; flex-direction: column;
+            transition: 0.4s ease;
         }
-        .btn-apple:hover .btn-bg-layers { transform: translateX(-50%) scale(1); }
-        .btn-text { position: relative; z-index: 1; }
+        .price-card-v2:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.06); }
+        .card-header { padding: 40px 30px; position: relative; }
+        .header-silver { background: var(--silver-grad); }
+        .header-lavender { background: var(--lavender-grad); }
+        
+        .badge {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.8); padding: 4px 12px;
+            border-radius: 10px; font-size: 10px; font-weight: 800; color: #64748b;
+        }
+        .badge-pro { background: #000; color: #fff; }
+
+        .price-text { font-size: 2.8rem; font-weight: 700; letter-spacing: -1px; }
+        .currency { font-size: 1.2rem; margin-right: 4px; color: #64748b; }
+        .period { font-size: 0.9rem; color: #94a3b8; }
+
+        .features-list { padding: 30px; flex-grow: 1; }
+        .feature-item { 
+            display: flex; align-items: start; gap: 10px; font-size: 14px; 
+            color: #475569; margin-bottom: 12px; line-height: 1.4;
+        }
+        .dot { width: 4px; height: 4px; background: #cbd5e1; border-radius: 50%; margin-top: 8px; }
+
+        .btn-choose {
+            background: #1d1d1f; color: #fff; text-align: center;
+            padding: 18px; margin: 0 30px 30px; border-radius: 20px;
+            font-weight: 600; font-size: 15px; transition: 0.3s;
+        }
+        .btn-choose:hover { background: #000; }
 
         /* MODAL */
         #assessmentModal {
             display: none; position: fixed; inset: 0; z-index: 2000;
-            align-items: center; justify-content: center; background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(10px); padding: 20px;
+            align-items: center; justify-content: center; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px); padding: 20px;
         }
         .modal-content { background: #fff; width: 100%; max-width: 440px; padding: 45px 35px; border-radius: 40px; }
-        input, select { width: 100%; padding: 16px; border-radius: 16px; border: 1px solid #eee; background: #f9fafb; outline: none; }
-
-        /* PRICING */
-        .price-card { background: white; border-radius: 32px; padding: 40px 30px; border: 1px solid #f0f0f0; transition: 0.3s; position: relative; }
-        .price-card.featured { border: 2px solid #0071e3; transform: scale(1.05); z-index: 50; }
+        input, select { width: 100%; padding: 16px; border-radius: 16px; border: 1px solid #f1f5f9; background: #f8fafc; outline: none; }
     </style>
 </head>
 <body>
 
-    <!-- NAV -->
+    <!-- NAVIGATION -->
     <nav class="px-6">
         <div class="max-w-5xl mx-auto h-16 glass rounded-full flex items-center justify-between px-8">
             <div class="flex items-center gap-2">
@@ -133,7 +123,7 @@
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <header class="pt-56 pb-20 px-6 text-center">
         <div class="max-w-4xl mx-auto">
             <h1 data-i18n="slogan" class="text-5xl md:text-7xl font-bold leading-[1.1] text-slate-900 mb-8">اختر الأفضل لطفلك، واطمئن على مستقبله</h1>
@@ -150,91 +140,126 @@
                 <button onclick="openModal()" class="btn-science">
                     <span data-i18n="btnHero1">احجز جلسة تقييم مجانية</span>
                 </button>
-                <a id="wa-hero" href="#" class="btn-apple bg-white border border-slate-200 w-full max-w-sm flex gap-3 group">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    <span data-i18n="btnHero2" class="text-slate-700">تواصل معنا الآن</span>
+                <a id="wa-hero" href="#" class="text-slate-500 text-sm font-semibold hover:text-blue-600 transition flex items-center gap-2 mt-4">
+                    <span data-i18n="btnHero2">أو تواصل معنا عبر واتساب</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- METHOD -->
-    <section class="py-24 px-6 bg-[#f5f5f7]">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-            <div class="glass p-12 rounded-[48px]">
-                <h2 data-i18n="meth1T" class="text-3xl font-bold mb-5">تعليم فردي 1-1</h2>
-                <p data-i18n="meth1D" class="text-slate-500 leading-relaxed text-lg">نقدم اهتماماً كاملاً لكل طالب على حدة، مما يضمن معالجة نقاط الضعف بدقة وسرعة.</p>
-            </div>
-            <div class="glass p-12 rounded-[48px]">
-                <h2 data-i18n="meth2T" class="text-3xl font-bold mb-5">دعم ومتابعة مستمرة</h2>
-                <p data-i18n="meth2D" class="text-slate-500 leading-relaxed text-lg">بجانب الحصة الأسبوعية، نوفر 3 جلسات اتصال قصيرة لمتابعة الواجبات وتثبيت المعلومة.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- EXPERTISE (IMAGES WITH EFFECTS) -->
+    <!-- EXPERTISE SECTION (IMAGES + TEXT + REVEAL) -->
     <section class="py-32 px-6">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-12">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-16">
             <!-- 1 -->
-            <div class="img-container">
-                <div class="img-glow"></div>
-                <img src="images/نتائج مضمونة.png" alt="نتائج مضمونة" class="expertise-img">
+            <div class="img-card reveal">
+                <div class="img-wrapper">
+                    <div class="backlight"></div>
+                    <img src="images/نتائج مضمونة.png" alt="نتائج مضمونة">
+                </div>
+                <span class="text-blue-600 text-[10px] font-extrabold tracking-widest block mb-2">GUARANTEED</span>
+                <h3 data-i18n="exp1T" class="text-xl font-bold mb-3">نتائج مضمونة</h3>
+                <p data-i18n="exp1D" class="text-slate-400 text-sm leading-relaxed">منهجية علمية تضمن تطور مستوى الطالب الأكاديمي.</p>
             </div>
             <!-- 2 -->
-            <div class="img-container">
-                <div class="img-glow"></div>
-                <img src="images/اعتماد كامبريدج.png" alt="اعتماد كامبريدج" class="expertise-img">
+            <div class="img-card reveal">
+                <div class="img-wrapper">
+                    <div class="backlight"></div>
+                    <img src="images/اعتماد كامبريدج.png" alt="اعتماد كامبريدج">
+                </div>
+                <span class="text-blue-600 text-[10px] font-extrabold tracking-widest block mb-2">CERTIFIED</span>
+                <h3 data-i18n="exp2T" class="text-xl font-bold mb-3">اعتماد كامبريدج</h3>
+                <p data-i18n="exp2D" class="text-slate-400 text-sm leading-relaxed">نخبة من المصححين المعتمدين لامتحانات كامبريدج.</p>
             </div>
             <!-- 3 -->
-            <div class="img-container">
-                <div class="img-glow"></div>
-                <img src="images/خبراء متمكنونa.png" alt="خبراء متمكنون" class="expertise-img">
+            <div class="img-card reveal">
+                <div class="img-wrapper">
+                    <div class="backlight"></div>
+                    <img src="images/خبراء متمكنونa.png" alt="خبراء متمكنون">
+                </div>
+                <span class="text-blue-600 text-[10px] font-extrabold tracking-widest block mb-2">5+ YEARS</span>
+                <h3 data-i18n="exp3T" class="text-xl font-bold mb-3">خبراء متمكنون</h3>
+                <p data-i18n="exp3D" class="text-slate-400 text-sm leading-relaxed">مدرسون بخبرة تزيد عن 5 سنوات في التدريس الدولي.</p>
             </div>
         </div>
     </section>
 
-    <!-- PRICING -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <h2 data-i18n="priceHead" class="text-4xl font-bold text-center mb-16">استثمر في مستقبل طفلك</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- P1 -->
-                <div class="price-card">
-                    <span class="text-xs font-bold text-slate-400 mb-6 block">STARTER</span>
-                    <div class="mb-4"><span class="text-4xl font-bold">0DH</span></div>
-                    <p data-i18n="pFreeD" class="text-sm text-slate-500 mb-8">تقييم كامل لمستوى الطالب الحالي</p>
-                    <button onclick="openModal()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold" data-i18n="btnPFree">ابدأ الآن</button>
+    <!-- PRICING SECTION -->
+    <section class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 data-i18n="priceHead" class="text-3xl md:text-5xl font-bold text-center mb-20">استثمر في مستقبل طفلك</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- STARTER -->
+                <div class="price-card-v2 reveal">
+                    <div class="card-header header-silver">
+                        <span class="badge" data-i18n="p1Sub">Basic</span>
+                        <div class="mt-8 flex items-baseline">
+                            <span class="currency">DH</span>
+                            <span class="price-text">199</span>
+                            <span class="period" data-i18n="p1Dur">/ Month</span>
+                        </div>
+                        <p class="text-slate-500 text-sm mt-2 font-medium" data-i18n="p1Title">English Starter</p>
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f1_1">Access to online English lessons</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f1_2">Grammar & vocabulary lessons</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f1_3">Listening practice</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f1_4">Learning materials</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f1_5">Progress tracking</span></div>
+                    </div>
+                    <a id="wa-p1" href="#" class="btn-choose" data-i18n="btnChoose">Choose</a>
                 </div>
-                <!-- P2: 1 Month -->
-                <div class="price-card">
-                    <span class="text-xs font-bold text-slate-400 mb-2 block">BASIC</span>
-                    <span class="text-[10px] font-bold text-blue-500 mb-4 block" data-i18n="dur1">شهر واحد</span>
-                    <div class="mb-4"><span class="text-4xl font-bold">199DH</span></div>
-                    <p data-i18n="p1D" class="text-sm text-slate-500 mb-8">تعلم أسبوعي منتظم مع دعم كامل</p>
-                    <a id="wa-p1" href="#" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-center block" data-i18n="btnP1">سجل الآن</a>
+
+                <!-- ACCELERATOR -->
+                <div class="price-card-v2 reveal" style="border: 1px solid #e0e7ff;">
+                    <div class="card-header header-lavender">
+                        <span class="badge badge-pro" data-i18n="p3Sub">Most Popular</span>
+                        <div class="mt-8 flex items-baseline">
+                            <span class="currency">DH</span>
+                            <span class="price-text">499</span>
+                            <span class="period" data-i18n="p3Dur">/ 3 Months</span>
+                        </div>
+                        <p class="text-slate-500 text-sm mt-2 font-medium" data-i18n="p3Title">English Accelerator</p>
+                        <div class="text-[10px] font-bold text-blue-600 mt-2" data-i18n="p3Save">Save 98 DH</div>
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f2_1">Everything in Starter</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f2_2">Speaking practice activities</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f2_3">More advanced lessons</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f2_4">Weekly progress checks</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f2_5">Certificate of completion</span></div>
+                    </div>
+                    <a id="wa-p3" href="#" class="btn-choose" data-i18n="btnChoose">Choose</a>
                 </div>
-                <!-- P3: 3 Months -->
-                <div class="price-card">
-                    <span class="text-xs font-bold text-slate-400 mb-2 block">POPULAR</span>
-                    <span class="text-[10px] font-bold text-green-600 mb-4 block" data-i18n="dur3">3 أشهر</span>
-                    <div class="mb-4"><span class="text-4xl font-bold">500DH</span></div>
-                    <p class="text-xs font-bold text-green-600 mb-4" data-i18n="p3Save">وفر 100 درهم</p>
-                    <a id="wa-p3" href="#" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-center block" data-i18n="btnP3">سجل الآن</a>
-                </div>
-                <!-- P4: 6 Months -->
-                <div class="price-card featured">
-                    <span class="text-xs font-bold text-blue-600 mb-2 block uppercase">Best Value</span>
-                    <span class="text-[10px] font-bold text-blue-600 mb-4 block" data-i18n="dur6">6 أشهر</span>
-                    <div class="mb-4"><span class="text-4xl font-bold">1000DH</span></div>
-                    <p class="text-xs font-bold text-blue-600 mb-4" data-i18n="p6Save">وفر 200 درهم</p>
-                    <a id="wa-p6" href="#" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-center block" data-i18n="btnP6">سجل الآن</a>
+
+                <!-- MASTERY -->
+                <div class="price-card-v2 reveal">
+                    <div class="card-header header-lavender">
+                        <span class="badge badge-pro" data-i18n="p6Sub">Best Value</span>
+                        <div class="mt-8 flex items-baseline">
+                            <span class="currency">DH</span>
+                            <span class="price-text">899</span>
+                            <span class="period" data-i18n="p6Dur">/ 6 Months</span>
+                        </div>
+                        <p class="text-slate-500 text-sm mt-2 font-medium" data-i18n="p6Title">English Mastery</p>
+                        <div class="text-[10px] font-bold text-blue-600 mt-2" data-i18n="p6Save">Save 295 DH</div>
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f3_1">Everything in Accelerator</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f3_2">Full English improvement program</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f3_3">Conversation practice</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f3_4">Exam & professional preparation</span></div>
+                        <div class="feature-item"><div class="dot"></div><span data-i18n="f3_5">Long-term learning support</span></div>
+                    </div>
+                    <a id="wa-p6" href="#" class="btn-choose" data-i18n="btnChoose">Choose</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-12 text-center text-[10px] text-slate-300 font-bold uppercase tracking-widest">
+    <footer class="py-20 text-center text-[10px] text-slate-300 font-bold uppercase tracking-[0.3em]">
         Teachesl_y &copy; 2025
     </footer>
 
@@ -244,41 +269,44 @@
             <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-300 hover:text-slate-900">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-            <h2 data-i18n="modTitle" class="text-3xl font-bold mb-10 text-center">تقييم المستوى مجاناً</h2>
-            <form action="https://api.web3forms.com/submit" method="POST" class="space-y-5">
+            <h2 data-i18n="modTitle" class="text-2xl font-bold mb-10 text-center">تقييم المستوى مجاناً</h2>
+            <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
                 <input type="hidden" name="access_key" value="0a0f72a0-7679-4600-abcf-9ebd68532b29">
-                <input type="text" name="name" required id="f-name" placeholder="الاسم الكامل / Full Name">
+                <input type="text" name="name" required placeholder="الاسم الكامل / Full Name">
                 <select name="age" required id="f-age">
-                    <option value="" disabled selected id="f-age-p">عمر الطالب / Student Age</option>
+                    <option value="" disabled selected>عمر الطالب / Student Age</option>
                     <option>5 - 8 سنوات</option>
                     <option>9 - 12 سنة</option>
                     <option>13 - 16 سنة</option>
                 </select>
-                <select name="level" required id="f-level">
-                    <option value="" disabled selected id="f-level-p">المستوى الحالي / Current Level</option>
+                <select name="level" required>
+                    <option value="" disabled selected>المستوى الحالي / Current Level</option>
                     <option>Beginner / مبتدئ</option>
                     <option>Intermediate / متوسط</option>
                     <option>Advanced / متقدم</option>
                 </select>
-                <input type="tel" name="phone" required id="f-phone" placeholder="رقم الهاتف / Phone Number">
-                <button type="submit" class="w-full bg-black text-white py-5 rounded-[20px] font-bold text-lg" id="f-btn">إرسال الطلب</button>
+                <input type="tel" name="phone" required placeholder="رقم الهاتف / Phone Number">
+                <button type="submit" class="w-full bg-black text-white py-5 rounded-[20px] font-bold text-lg mt-4" id="f-btn">إرسال الطلب</button>
             </form>
         </div>
     </div>
 
     <script>
-        // WHATSAPP URLS
-        const msgs = {
-            hero: "السلام عليكم، أرغب في حجز حصة لتعلم الإنجليزية. أود معرفة المواعيد المتاحة، تفاصيل التسجيل، وطريقة الدفع. شكراً لكم.",
-            p1: "السلام عليكم، أرغب في التسجيل في برنامج تعلم الإنجليزية لمدة شهر واحد. أرجو إرسال تفاصيل الدفع وطريقة البدء.",
-            p3: "السلام عليكم، أرغب في التسجيل في برنامج تعلم الإنجليزية لمدة 3 أشهر. أرجو إرسال تفاصيل الدفع وطريقة البدء.",
-            p6: "السلام عليكم، أرغب في التسجيل في برنامج تعلم الإنجليزية لمدة 6 أشهر. أرجو إرسال تفاصيل الدفع وطريقة البدء."
-        };
+        // SCROLL REVEAL OBSERVER
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // WHATSAPP
         const baseWa = "https://wa.me/212725037043?text=";
-        document.getElementById('wa-hero').href = baseWa + encodeURIComponent(msgs.hero);
-        document.getElementById('wa-p1').href = baseWa + encodeURIComponent(msgs.p1);
-        document.getElementById('wa-p3').href = baseWa + encodeURIComponent(msgs.p3);
-        document.getElementById('wa-p6').href = baseWa + encodeURIComponent(msgs.p6);
+        const msg = (txt) => encodeURIComponent(txt);
+        document.getElementById('wa-hero').href = baseWa + msg("السلام عليكم، أرغب في حجز حصة لتعلم الإنجليزية. أود معرفة المواعيد المتاحة، تفاصيل التسجيل، وطريقة الدفع. شكراً لكم.");
+        document.getElementById('wa-p1').href = baseWa + msg("السلام عليكم، أرغب في التسجيل في برنامج English Starter (199 DH).");
+        document.getElementById('wa-p3').href = baseWa + msg("السلام عليكم، أرغب في التسجيل في برنامج English Accelerator (499 DH).");
+        document.getElementById('wa-p6').href = baseWa + msg("السلام عليكم، أرغب في التسجيل في برنامج English Mastery (899 DH).");
 
         // COUNTER
         let count = 0;
@@ -292,67 +320,52 @@
         function closeModal() { document.getElementById('assessmentModal').style.display = 'none'; }
         function closeModalOutside(e) { if(e.target.id === 'assessmentModal') closeModal(); }
 
-        // SCROLL REVEAL LOGIC
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal-active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.img-container').forEach(el => observer.observe(el));
-
-        // TRANSLATIONS
+        // LANGUAGES
         const dictionary = {
             ar: {
-                slogan: "اختر الأفضل لطفلك، واطمئن على مستقبله",
-                socialProof: "طالب متفوق انضم إلينا",
-                btnHero1: "احجز جلسة تقييم مجانية",
-                btnHero2: "تواصل معنا الآن",
-                meth1T: "تعليم فردي 1-1",
-                meth1D: "نقدم اهتماماً كاملاً لكل طالب على حدة، مما يضمن معالجة نقاط الضعف بدقة وسرعة.",
-                meth2T: "دعم ومتابعة مستمرة",
-                meth2D: "بجانب الحصة الأسبوعية، نوفر 3 جلسات اتصال قصيرة لمتابعة الواجبات وتثبيت المعلومة.",
-                priceHead: "استثمر في مستقبل طفلك", 
-                dur1: "شهر واحد", dur3: "3 أشهر", dur6: "6 أشهر",
-                pFreeD: "تقييم كامل لمستوى الطالب الحالي",
-                btnPFree: "ابدأ الآن", p1D: "تعلم أسبوعي منتظم مع دعم كامل",
-                btnP1: "سجل الآن", p6Save: "وفر 200 درهم", btnP6: "سجل الآن",
-                p3Save: "وفر 100 درهم", btnP3: "سجل الآن", modTitle: "تقييم المستوى مجاناً"
+                slogan: "اختر الأفضل لطفلك، واطمئن على مستقبله", socialProof: "طالب متفوق انضم إلينا",
+                btnHero1: "احجز جلسة تقييم مجانية", btnHero2: "أو تواصل معنا عبر واتساب",
+                exp1T: "نتائج مضمونة", exp1D: "منهجية علمية تضمن تطور مستوى الطالب الأكاديمي.",
+                exp2T: "اعتماد كامبريدج", exp2D: "نخبة من المصححين المعتمدين لامتحانات كامبريدج.",
+                exp3T: "خبراء متمكنون", exp3D: "مدرسون بخبرة تزيد عن 5 سنوات في التدريس الدولي.",
+                priceHead: "استثمر في مستقبل طفلك", modTitle: "تقييم المستوى مجاناً",
+                p1Sub: "أساسي", p1Dur: "/ شهر", p1Title: "مبتدئ اللغة الإنجليزية",
+                p3Sub: "الأكثر طلباً", p3Dur: "/ 3 أشهر", p3Title: "مسرع التعلم", p3Save: "وفر 98 درهم",
+                p6Sub: "أفضل قيمة", p6Dur: "/ 6 أشهر", p6Title: "إتقان اللغة", p6Save: "وفر 295 درهم",
+                btnChoose: "اختيار",
+                f1_1: "الوصول إلى دروس اللغة الإنجليزية عبر الإنترنت", f1_2: "دروس القواعد والمفردات", f1_3: "ممارسة الاستماع", f1_4: "مواد تعليمية", f1_5: "تتبع التقدم",
+                f2_1: "كل ما في باقة المبتدئين", f2_2: "أنشطة ممارسة التحدث", f2_3: "دروس أكثر تقدماً", f2_4: "مراجعة التقدم الأسبوعية", f2_5: "شهادة إتمام",
+                f3_1: "كل ما في باقة المسرع", f3_2: "برنامج تطوير اللغة المتكامل", f3_3: "ممارسة المحادثة", f3_4: "التحضير للامتحانات واللغة المهنية", f3_5: "دعم تعليمي طويل الأمد"
             },
             en: {
-                slogan: "Choose the best for your child, and secure their future",
-                socialProof: "Successful students joined us",
-                btnHero1: "Book Free Assessment",
-                btnHero2: "Contact Us Now",
-                meth1T: "1-on-1 Tutoring",
-                meth1D: "Full personal attention for every student, ensuring weaknesses are addressed fast.",
-                meth2T: "Continuous Support",
-                meth2D: "Beside weekly classes, we provide 3 check-in calls for homework support.",
-                priceHead: "Invest in your child's future", 
-                dur1: "1 Month", dur3: "3 Months", dur6: "6 Months",
-                pFreeD: "Full assessment of current student level",
-                btnPFree: "Start Now", p1D: "Regular weekly learning with full support",
-                btnP1: "Enroll Now", p6Save: "Save 200 DH", btnP6: "Enroll Now",
-                p3Save: "Save 100 DH", btnP3: "Enroll Now", modTitle: "Free Assessment"
+                slogan: "Choose the best for your child, and secure their future", socialProof: "Successful students joined us",
+                btnHero1: "Book Free Assessment", btnHero2: "Or contact us via WhatsApp",
+                exp1T: "Guaranteed Results", exp1D: "Scientific methodology ensuring academic progress.",
+                exp2T: "Cambridge Certified", exp2D: "Official examiners for Cambridge exams.",
+                exp3T: "Expert Mentors", exp3D: "Teachers with over 5 years of international experience.",
+                priceHead: "Invest in your child's future", modTitle: "Free Assessment",
+                p1Sub: "Basic", p1Dur: "/ Month", p1Title: "English Starter",
+                p3Sub: "Most Popular", p3Dur: "/ 3 Months", p3Title: "English Accelerator", p3Save: "Save 98 DH",
+                p6Sub: "Best Value", p6Dur: "/ 6 Months", p6Title: "English Mastery", p6Save: "Save 295 DH",
+                btnChoose: "Choose",
+                f1_1: "Access to online English lessons", f1_2: "Grammar & vocabulary lessons", f1_3: "Listening practice", f1_4: "Learning materials", f1_5: "Progress tracking",
+                f2_1: "Everything in Starter", f2_2: "Speaking practice activities", f2_3: "More advanced lessons", f2_4: "Weekly progress checks", f2_5: "Certificate of completion",
+                f3_1: "Everything in Accelerator", f3_2: "Full English improvement program", f3_3: "Conversation practice", f3_4: "Exam & professional preparation", f3_5: "Long-term learning support"
             },
             fr: {
-                slogan: "Choisissez le meilleur pour votre enfant, assurez son avenir",
-                socialProof: "Étudiants ayant réussi avec nous",
-                btnHero1: "Évaluation Gratuite",
-                btnHero2: "Contactez-nous",
-                meth1T: "Cours Particuliers 1-à-1",
-                meth1D: "Attention personnalisée pour chaque élève, garantissant un progrès rapide.",
-                meth2T: "Soutien Continu",
-                meth2D: "En plus des cours, nous offrons 3 appels de suivi pour les devoirs.",
-                priceHead: "Investissez dans l'avenir de votre enfant", 
-                dur1: "1 Mois", dur3: "3 Mois", dur6: "6 Mois",
-                pFreeD: "Évaluation complète du niveau de l'élève",
-                btnPFree: "Commencer", p1D: "Apprentissage hebdomadaire avec soutien complet",
-                btnP1: "S'inscrire", p6Save: "Économisez 200 DH", btnP6: "S'inscrire",
-                p3Save: "Économisez 100 DH", btnP3: "S'inscrire", modTitle: "Évaluation Gratuite"
+                slogan: "Choisissez le meilleur pour votre enfant, assurez son avenir", socialProof: "Étudiants ayant réussi avec nous",
+                btnHero1: "Évaluation Gratuite", btnHero2: "Ou contactez-nous via WhatsApp",
+                exp1T: "Résultats Garantis", exp1D: "Méthodologie scientifique assurant le progrès.",
+                exp2T: "Certifié Cambridge", exp2D: "Examinateurs officiels pour les examens Cambridge.",
+                exp3T: "Mentors Experts", exp3D: "Enseignants avec plus de 5 ans d'expérience.",
+                priceHead: "Investissez dans l'avenir de votre enfant", modTitle: "Évaluation Gratuite",
+                p1Sub: "Basique", p1Dur: "/ Mois", p1Title: "English Starter",
+                p3Sub: "Populaire", p3Dur: "/ 3 Mois", p3Title: "English Accelerator", p3Save: "Économisez 98 DH",
+                p6Sub: "Meilleure Valeur", p6Dur: "/ 6 Mois", p6Title: "English Mastery", p6Save: "Économisez 295 DH",
+                btnChoose: "Choisir",
+                f1_1: "Accès aux cours d'anglais en ligne", f1_2: "Leçons de grammaire et vocabulaire", f1_3: "Pratique de l'écoute", f1_4: "Matériel pédagogique", f1_5: "Suivi des progrès",
+                f2_1: "Tout ce qui est dans Starter", f2_2: "Activités de pratique de l'oral", f2_3: "Leçons plus avancées", f2_4: "Suivi hebdomadaire", f2_5: "Certificat de fin d'études",
+                f3_1: "Tout ce qui est dans Accelerator", f3_2: "Programme complet d'amélioration", f3_3: "Pratique de la conversation", f3_4: "Préparation aux examens", f3_5: "Soutien à long terme"
             }
         };
 
@@ -360,34 +373,14 @@
             const isRtl = lang === 'ar';
             document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
-            
             ['ar', 'en', 'fr'].forEach(l => {
                 document.getElementById(`btn-${l}`).className = (l === lang) ? 'px-3 py-1 bg-slate-900 text-white rounded-lg' : 'px-3 py-1 text-slate-400';
             });
-
             const t = dictionary[lang];
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(t[key]) el.innerText = t[key];
             });
-
-            const fName = document.getElementById('f-name');
-            const fPhone = document.getElementById('f-phone');
-            const fBtn = document.getElementById('f-btn');
-            const ageP = document.getElementById('f-age-p');
-            const lvlP = document.getElementById('f-level-p');
-
-            if(lang === 'ar') {
-                fName.placeholder = "الاسم الكامل / Full Name"; fPhone.placeholder = "رقم الهاتف / Phone Number"; fBtn.innerText = "إرسال الطلب";
-                ageP.innerText = "عمر الطالب / Student Age"; lvlP.innerText = "المستوى الحالي / Current Level";
-            } else if(lang === 'fr') {
-                fName.placeholder = "Nom Complet / Full Name"; fPhone.placeholder = "Téléphone / Phone Number"; fBtn.innerText = "Envoyer";
-                ageP.innerText = "Âge de l'élève / Student Age"; lvlP.innerText = "Niveau Actuel / Current Level";
-            } else {
-                fName.placeholder = "Full Name / الاسم الكامل"; fPhone.placeholder = "Phone Number / رقم الهاتف"; fBtn.innerText = "Send Request";
-                ageP.innerText = "Student Age / عمر الطالب"; lvlP.innerText = "Current Level / المستوى الحالي";
-            }
-            
             document.querySelectorAll('input, select').forEach(i => i.style.textAlign = isRtl ? 'right' : 'left');
         }
     </script>
