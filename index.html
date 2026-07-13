@@ -105,10 +105,25 @@
         .modal-content { background: #fff; width: 100%; max-width: 440px; padding: 45px 35px; border-radius: 40px; }
         input, select { width: 100%; padding: 16px; border-radius: 16px; border: 1px solid #f1f5f9; background: #f8fafc; outline: none; }
     </style>
-</head>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1382288607202076');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1382288607202076&ev=PageView&noscript=1"
+    /></noscript>
+    </head>
 <body>
 
-    <!-- NAVIGATION -->
     <nav class="px-6">
         <div class="max-w-5xl mx-auto h-16 glass rounded-full flex items-center justify-between px-8">
             <div class="flex items-center gap-2">
@@ -123,7 +138,6 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <header class="pt-56 pb-20 px-6 text-center">
         <div class="max-w-4xl mx-auto">
             <h1 data-i18n="slogan" class="text-5xl md:text-7xl font-bold leading-[1.1] text-slate-900 mb-8">اختر الأفضل لطفلك، واطمئن على مستقبله</h1>
@@ -148,10 +162,8 @@
         </div>
     </header>
 
-    <!-- EXPERTISE SECTION (IMAGES + TEXT + REVEAL) -->
     <section class="py-32 px-6">
         <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-16">
-            <!-- 1 -->
             <div class="img-card reveal">
                 <div class="img-wrapper">
                     <div class="backlight"></div>
@@ -161,7 +173,6 @@
                 <h3 data-i18n="exp1T" class="text-xl font-bold mb-3">نتائج مضمونة</h3>
                 <p data-i18n="exp1D" class="text-slate-400 text-sm leading-relaxed">منهجية علمية تضمن تطور مستوى الطالب الأكاديمي.</p>
             </div>
-            <!-- 2 -->
             <div class="img-card reveal">
                 <div class="img-wrapper">
                     <div class="backlight"></div>
@@ -171,7 +182,6 @@
                 <h3 data-i18n="exp2T" class="text-xl font-bold mb-3">اعتماد كامبريدج</h3>
                 <p data-i18n="exp2D" class="text-slate-400 text-sm leading-relaxed">نخبة من المصححين المعتمدين لامتحانات كامبريدج.</p>
             </div>
-            <!-- 3 -->
             <div class="img-card reveal">
                 <div class="img-wrapper">
                     <div class="backlight"></div>
@@ -184,13 +194,11 @@
         </div>
     </section>
 
-    <!-- PRICING SECTION -->
     <section class="py-24 px-6">
         <div class="max-w-6xl mx-auto">
             <h2 data-i18n="priceHead" class="text-3xl md:text-5xl font-bold text-center mb-20">استثمر في مستقبل طفلك</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- STARTER -->
                 <div class="price-card-v2 reveal">
                     <div class="card-header header-silver">
                         <span class="badge" data-i18n="p1Sub">Basic</span>
@@ -211,7 +219,6 @@
                     <a id="wa-p1" href="#" class="btn-choose" data-i18n="btnChoose">Choose</a>
                 </div>
 
-                <!-- ACCELERATOR -->
                 <div class="price-card-v2 reveal" style="border: 1px solid #e0e7ff;">
                     <div class="card-header header-lavender">
                         <span class="badge badge-pro" data-i18n="p3Sub">Most Popular</span>
@@ -233,7 +240,6 @@
                     <a id="wa-p3" href="#" class="btn-choose" data-i18n="btnChoose">Choose</a>
                 </div>
 
-                <!-- MASTERY -->
                 <div class="price-card-v2 reveal">
                     <div class="card-header header-lavender">
                         <span class="badge badge-pro" data-i18n="p6Sub">Best Value</span>
@@ -258,19 +264,17 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="py-20 text-center text-[10px] text-slate-300 font-bold uppercase tracking-[0.3em]">
         Teachesl_y &copy; 2025
     </footer>
 
-    <!-- MODAL -->
     <div id="assessmentModal" onclick="closeModalOutside(event)">
         <div class="modal-content relative shadow-2xl" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-300 hover:text-slate-900">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
             <h2 data-i18n="modTitle" class="text-2xl font-bold mb-10 text-center">تقييم المستوى مجاناً</h2>
-            <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+            <form id="assessmentForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
                 <input type="hidden" name="access_key" value="0a0f72a0-7679-4600-abcf-9ebd68532b29">
                 <input type="text" name="name" required placeholder="الاسم الكامل / Full Name">
                 <select name="age" required id="f-age">
@@ -292,6 +296,13 @@
     </div>
 
     <script>
+        // META PIXEL CONVERSION TRACKING FOR LEAD FORM
+        document.getElementById('assessmentForm').addEventListener('submit', function() {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Lead');
+            }
+        });
+
         // SCROLL REVEAL OBSERVER
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
